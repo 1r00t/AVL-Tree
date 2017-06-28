@@ -1,10 +1,7 @@
 package de.beuth.algorithmen.datatypes.bintree;
 
-import de.beuth.algorithmen.datatypes.bintree.TreeNode;
-import de.beuth.algorithmen.datatypes.bintree.AbstractTreeNode;
-
 public class TreeStorage {
-    
+
     private AbstractTreeNode root;
 
     /**
@@ -19,12 +16,12 @@ public class TreeStorage {
         }
     }
 
-    
+
     public String toString() {
         if (root == null) return "leerer Baum";
         else return root.toString();
     }
-    
+
     /**
      * @return Das Objekt mit dem gegebenen Schlüssel (falls vorhanden).
      */
@@ -52,14 +49,15 @@ public class TreeStorage {
     /**
      * Entfernt ein Objekt mit dem gegebenen Schlüssel aus
      * der Sammlung, falls es ein solches Objekt gibt.
+     *
      * @param key Der Schlüssel des Objekts, das entfernt werden soll.
      * @return Das Objekt, das entfernt wurde, falls es ein solches gibt
-     *         und null, sonst.
+     * und null, sonst.
      */
     public KeyAble remove(int key) {
         if (root == null) return null;
         else {
-            AbstractTreeNode[] pair =  root.delete(key);
+            AbstractTreeNode[] pair = root.delete(key);
             root = pair[0];
             if (pair[1] != null) return pair[1].getData();
             else return null;
@@ -74,17 +72,17 @@ public class TreeStorage {
     }
 
     /**
-     * @return Genau dann true, wenn das gegebene Objekt o 
-     *         in dieser Sammlung enthalten ist.
+     * @return Genau dann true, wenn das gegebene Objekt o
+     * in dieser Sammlung enthalten ist.
      */
-    public boolean contains(KeyAble o) {        
+    public boolean contains(KeyAble o) {
         return (root != null) && (root.search(o) != null);
     }
 
-    
+
     /**
-     * @return Genau dann true, wenn ein Objekt mit dem gegebenen 
-     *         Schlüssel in dieser Sammlung enthalten ist.
+     * @return Genau dann true, wenn ein Objekt mit dem gegebenen
+     * Schlüssel in dieser Sammlung enthalten ist.
      */
     public boolean contains(int key) {
         return (root != null) && (root.search(key) != null);
@@ -92,32 +90,32 @@ public class TreeStorage {
 
     /**
      * @return Den Nachfolger (bezüglich der Schlüsselreihenfolge)
-     *         des gegebenen Objekts o in der Sammlung.
+     * des gegebenen Objekts o in der Sammlung.
      */
     public KeyAble getSuccessor(KeyAble o) {
         if (root == null) return null;
         else {
-            AbstractTreeNode k = root.search(o);            
+            AbstractTreeNode k = root.search(o);
             if (k != null) {
-                AbstractTreeNode s = k.getSuccessor(); 
+                AbstractTreeNode s = k.getSuccessor();
                 if (s != null) return s.getData();
-            } 
+            }
             return null;
         }
     }
 
     /**
      * @return Den Vorgänger (bezüglich der Schlüsselreihenfolge)
-     *         des gegebenen Objekts o in der Sammlung.
+     * des gegebenen Objekts o in der Sammlung.
      */
     public KeyAble getPredecessor(KeyAble o) {
         if (root == null) return null;
         else {
-            AbstractTreeNode k = root.search(o);            
+            AbstractTreeNode k = root.search(o);
             if (k != null) {
-                AbstractTreeNode p = k.getPredecessor(); 
+                AbstractTreeNode p = k.getPredecessor();
                 if (p != null) return p.getData();
-            } 
+            }
             return null;
         }
     }

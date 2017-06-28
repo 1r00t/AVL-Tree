@@ -6,7 +6,6 @@
 package de.beuth.algorithmen.datatypes.bintree;
 
 /**
- *
  * @author Nicolai Brandt
  */
 public class AVLTreeNode extends TreeNode {
@@ -23,12 +22,12 @@ public class AVLTreeNode extends TreeNode {
     }
 
     public AbstractTreeNode remove() {
-        AVLTreeNode father = (AVLTreeNode)parent;
+        AVLTreeNode father = (AVLTreeNode) parent;
         AbstractTreeNode newRoot = super.remove();
         if (father != null) {
             father.propagateDepthChange();
         }
-        return  newRoot;
+        return newRoot;
     }
 
     public void setRightChild(AbstractTreeNode c) {
@@ -50,7 +49,7 @@ public class AVLTreeNode extends TreeNode {
         if (depth != newDepth) {
             depth = newDepth;
             if (parent != null)
-                ((AVLTreeNode)parent).propagateDepthChange();
+                ((AVLTreeNode) parent).propagateDepthChange();
         }
     }
 
@@ -69,9 +68,9 @@ public class AVLTreeNode extends TreeNode {
         }
         this.parent = a.parent;
         a.parent = this;
-        this.left = a;        
+        this.left = a;
     }
-    
+
     private void rotateRight() {
         AVLTreeNode a = (AVLTreeNode) this.parent;
         if (a == null) {
@@ -85,21 +84,9 @@ public class AVLTreeNode extends TreeNode {
         a.parent = this;
         this.right = a;
     }
-    
+
     public static void main(String[] args) {
-//        IntKeyable a = new IntKeyable(1);
-//        IntKeyable b = new IntKeyable(2);
-//        IntKeyable c = new IntKeyable(3);
-//        AVLTreeNode aa = new AVLTreeNode(a);
-//        AVLTreeNode bb = new AVLTreeNode(b);
-//        AVLTreeNode cc = new AVLTreeNode(c);
-//        aa.insert(bb);
-//        aa.insert(cc);
-//        
-//        System.out.println(aa.toString());
-//        bb.rotateLeft();
-//        System.out.println(bb.toString());
-        
+
         IntKeyable a = new IntKeyable(3);
         IntKeyable b = new IntKeyable(2);
         IntKeyable c = new IntKeyable(1);
@@ -108,7 +95,7 @@ public class AVLTreeNode extends TreeNode {
         AVLTreeNode cc = new AVLTreeNode(c);
         aa.insert(bb);
         aa.insert(cc);
-        
+
         System.out.println(aa.toString());
         bb.rotateRight();
         System.out.println(bb.toString());
