@@ -58,47 +58,92 @@ public class AVLTreeNode extends TreeNode {
     }
 
     public void rotateLeft() {
-        AVLTreeNode a = (AVLTreeNode) this.parent;
-        if (a == null) {
+        AVLTreeNode father = (AVLTreeNode) this.parent;
+        if (father == null || isLeftChild()) {
             throw new RuntimeException();
         }
-        a.right = this.left;
+        father.right = this.left;
         if (this.left != null) {
-            this.left.parent = a;
+            this.left.parent = father;
         }
-        this.parent = a.parent;
-        a.parent = this;
-        this.left = a;
+        this.parent = father.parent;
+        father.parent = this;
+        this.left = father;
+        father.propagateDepthChange();
     }
 
     private void rotateRight() {
-        AVLTreeNode a = (AVLTreeNode) this.parent;
-        if (a == null) {
+        AVLTreeNode father = (AVLTreeNode) this.parent;
+        if (father == null || isRightChild()) {
             throw new RuntimeException();
         }
-        a.left = this.right;
+        father.left = this.right;
         if (this.right != null) {
-            this.right.parent = a;
+            this.right.parent = father;
         }
-        this.parent = a.parent;
-        a.parent = this;
-        this.right = a;
+        this.parent = father.parent;
+        father.parent = this;
+        this.right = father;
+        father.propagateDepthChange();
+    }
+
+    private void doubleRotateLeft() {
+        rotateRight();
+        rotateLeft();
+    }
+
+    private void doubleRotateRight() {
+        rotateLeft();
+        rotateRight();
+    }
+
+    public AbstractTreeNode insert(AbstractTreeNode btn) {
+        AbstractTreeNode root = super.insert(btn);
+
+        if((this.left != btn && this.right != btn) || btn.parent.parent == null) {
+            return root;
+        }
+
+        while(Math.abs(((AVLTreeNode) btn.parent.parent).getAVLValue()) != 2){
+            btn = btn.parent;
+            if(btn.parent.parent == null) return root;
+        }
+
+        if(btn.isLeftChild()){
+            if(btn.parent.isLeftChild()) {
+                ((AVLTreeNode) btn.parent).rotateRight();
+            } else {
+                ((AVLTreeNode) btn).doubleRotateLeft();
+            }
+        } else {
+            if(btn.parent.isLeftChild()) {
+                ((AVLTreeNode) btn).doubleRotateRight();
+            } else {
+                ((AVLTreeNode) btn.parent).rotateLeft();
+            }
+        }
+
+        return getRoot();
     }
 
     public static void main(String[] args) {
 
-        IntKeyable a = new IntKeyable(3);
-        IntKeyable b = new IntKeyable(2);
-        IntKeyable c = new IntKeyable(1);
-        AVLTreeNode aa = new AVLTreeNode(a);
-        AVLTreeNode bb = new AVLTreeNode(b);
-        AVLTreeNode cc = new AVLTreeNode(c);
-        aa.insert(bb);
-        aa.insert(cc);
 
-        System.out.println(aa.toString());
-        bb.rotateRight();
-        System.out.println(bb.toString());
+        AVLTreeNode a = new AVLTreeNode(new IntKeyable(6));
+        AVLTreeNode b = new AVLTreeNode(new IntKeyable(8));
+        AVLTreeNode c = new AVLTreeNode(new IntKeyable(10));
+        AVLTreeNode d = new AVLTreeNode(new IntKeyable(5));
+        AVLTreeNode e = new AVLTreeNode(new IntKeyable(7));
+        AVLTreeNode f = new AVLTreeNode(new IntKeyable(9));
+        AVLTreeNode g = new AVLTreeNode(new IntKeyable(15));
+        c.insert(g);
+        c.insert(a);
+        a.insert(d);
+        a.insert(b);
+        b.insert(e);
+        b.insert(f);
+
+        System.out.println(a.getRoot().toString());
     }
 }
 
